@@ -1,4 +1,4 @@
-package cells;
+package game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,20 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Cell extends JPanel implements ActionListener, KeyListener {
+public class Game extends JPanel implements ActionListener {
 
     private char[][] map;
     //size of the cells
     private final int squareSize = 22;
     private final Map<Character, Image> characterImages = new HashMap<>();
-    private int pacmanX = 1 * squareSize;
-    private int pacmanY = 1 * squareSize;
 
-    private int directionX = 0;
-    private int directionY = 0;
+    private PacMan pacMan;
+
+
+
 
     private Timer timer;
-    public Cell(){
+    public Game(){
+        pacMan=new PacMan(this);
         //for blocks with no content
         characterImages.put(' ', loadImage("res_files/Walls/empty.png"));
 
@@ -48,7 +49,7 @@ public class Cell extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(400, this);
         timer.start();
 
-        addKeyListener(this);
+
         setFocusable(true);
     }
     private Image loadImage(String fileName) {
@@ -78,59 +79,28 @@ public class Cell extends JPanel implements ActionListener, KeyListener {
             y += squareSize;
         }
         g.setColor(Color.YELLOW);
-        g.fillOval(pacmanX, pacmanY, squareSize, squareSize);
+        g.fillOval(pacMan.getPacmanX(), pacMan.getPacmanY(), squareSize, squareSize);
 
 
     }
     public void actionPerformed(ActionEvent e) {
-        movePacman();
+        pacMan.movePacman();
         repaint();
     }
 
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_RIGHT) {
-            directionX = 1;
-            directionY = 0;
-        } else if (key == KeyEvent.VK_LEFT) {
-            directionX = -1;
-            directionY = 0;
-        } else if (key == KeyEvent.VK_UP) {
-            directionX = 0;
-            directionY = -1;
-        } else if (key == KeyEvent.VK_DOWN) {
-            directionX = 0;
-            directionY = 1;
-        }
+
+
+
+
+
+
+
+    public int getSquareSize(){
+        return squareSize;
     }
 
-    public void movePacman() {
-        int newX = pacmanX + directionX * squareSize;
-        int newY = pacmanY + directionY * squareSize;
-
-        if (canMove(newX, newY)) {
-            if (map[newY / squareSize][newX / squareSize] == '*') {
-                map[newY / squareSize][newX / squareSize] = ' ';
-            }
-            pacmanX = newX;
-            pacmanY = newY;
-        }
-    }
-
-    public boolean canMove(int x, int y) {
-        int tileX = x / squareSize;
-        int tileY = y / squareSize;
-
-        return tileY >= 0 && tileY < map.length && tileX >= 0 && tileX < map[tileY].length && (map[tileY][tileX] == '*' || map[tileY][tileX] == ' ');
-    }
-
-
-    public void keyTyped(KeyEvent e) {
-        //not in use, but it is needed because of the interface
-    }
-
-    public void keyReleased(KeyEvent e) {
-        //not in use, but it is needed because of the interface
+    public char[][] getMap() {
+        return map;
     }
 }

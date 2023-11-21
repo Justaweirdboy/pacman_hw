@@ -1,4 +1,5 @@
-import cells.Cell;
+
+import game.Game;
 
 import javax.swing.*;
 import java.io.File;
@@ -37,7 +38,7 @@ public class Main {
 
 
             JFrame frame = new JFrame();
-            Cell panel = new Cell();
+            Game panel = new Game();
             panel.setCharacters(matrix);
             frame.add(panel);
 
