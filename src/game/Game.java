@@ -10,21 +10,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Game extends JPanel implements ActionListener {
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
-    private char[][] map;
+public class Game extends JPanel implements KeyListener, ActionListener {
+
+
     //size of the cells
-    private final int squareSize = 22;
+    private final int squareSize;
     private final Map<Character, Image> characterImages = new HashMap<>();
+    private GameMap map;
 
     private PacMan pacMan;
 
-
-
+    private Ghost ghost;
 
     private Timer timer;
-    public Game(){
-        pacMan=new PacMan(this);
+
+
+    public Game(GameMap map) {
+        this.map = map;
+        squareSize = map.getSquareSize();
+        pacMan = new PacMan(map, 1, 1);
+        ghost = new Ghost(map, pacMan, 22);
+
+
         //for blocks with no content
         characterImages.put(' ', loadImage("res_files/Walls/empty.png"));
 
@@ -46,26 +55,25 @@ public class Game extends JPanel implements ActionListener {
 
         characterImages.put('*', loadImage("res_files/food.png"));
 
+        addKeyListener(this);
+
         timer = new Timer(400, this);
         timer.start();
-
-
         setFocusable(true);
     }
+
     private Image loadImage(String fileName) {
         ImageIcon icon = new ImageIcon(fileName);
         return icon.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
     }
-    public void setCharacters(char[][] matrix){
-        map=matrix;
-    }
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         int y = 0;
 
-        for (char[] row : map) {
+        for (char[] row : map.getGameMap()) {
             int x = 0;
 
 
@@ -78,29 +86,44 @@ public class Game extends JPanel implements ActionListener {
             }
             y += squareSize;
         }
-        g.setColor(Color.YELLOW);
-        g.fillOval(pacMan.getPacmanX(), pacMan.getPacmanY(), squareSize, squareSize);
 
+        pacMan.draw(g);
+        ghost.draw(g);
 
     }
+
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-        pacMan.movePacman();
+        pacMan.actionPerformed(e);
+        ghost.actionPerformed(e);
         repaint();
     }
 
 
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
 
-
-
-
-
-
-
-    public int getSquareSize(){
-        return squareSize;
+        if (key == KeyEvent.VK_RIGHT) {
+            pacMan.setDirectionX(1);
+            pacMan.setDirectionY(0);
+        } else if (key == KeyEvent.VK_LEFT) {
+            pacMan.setDirectionX(-1);
+            pacMan.setDirectionY(0);
+        } else if (key == KeyEvent.VK_UP) {
+            pacMan.setDirectionX(0);
+            pacMan.setDirectionY(-1);
+        } else if (key == KeyEvent.VK_DOWN) {
+            pacMan.setDirectionX(0);
+            pacMan.setDirectionY(1);
+        }
     }
 
-    public char[][] getMap() {
-        return map;
+    public void keyTyped(KeyEvent e) {
+        //not in use, but it is needed because of the interface
+    }
+
+    public void keyReleased(KeyEvent e) {
+        //not in use, but it is needed because of the interface
     }
 }

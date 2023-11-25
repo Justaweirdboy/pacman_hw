@@ -1,0 +1,16 @@
+
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùˆèØ8Í¡Šñ¿1
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùˆèØ8Í¡Šñ¿1
+O
+java:S1135"2Complete the task associated to this TODO comment.(Øµôê8á¡Šñ¿1
+J
+java:S1128"(Remove this unused import 'javax.swing'.(Ìí¿Üüÿÿÿÿ8ç¡Šñ¿1
+W
+java:S1128":Remove this unused import 'java.awt.event.ActionListener'.(Ìä¹8ç¡Šñ¿1
+Q
+java:S1128"4Remove this unused import 'java.awt.event.KeyEvent'.(¬ğİÍ8ç¡Šñ¿1
+T
+java:S1128"7Remove this unused import 'java.awt.event.KeyListener'.(ç„›û8ç¡Šñ¿1
+}
+java:S1128
+"[Remove this unused import 'com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener'.(»ÔÛøøÿÿÿÿ8ç¡Šñ¿1

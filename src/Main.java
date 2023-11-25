@@ -1,5 +1,6 @@
 
 import game.Game;
+import game.GameMap;
 
 import javax.swing.*;
 import java.io.File;
@@ -36,10 +37,10 @@ public class Main {
             }
 
 
-
+            GameMap map=new GameMap(matrix,22);
             JFrame frame = new JFrame();
-            Game panel = new Game();
-            panel.setCharacters(matrix);
+            Game panel = new Game(map);
+
             frame.add(panel);
 
             frame.setSize(600, 400);
