@@ -3,6 +3,7 @@ import game.Game;
 import game.GameMap;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -37,20 +38,20 @@ public class Main {
             }
 
 
-            GameMap map=new GameMap(matrix,22);
+            GameMap map = new GameMap(matrix, 22);
             JFrame frame = new JFrame();
             Game panel = new Game(map);
+            panel.setBackground(Color.BLACK);
 
             frame.add(panel);
 
-            frame.setSize(600, 400);
+            frame.setSize(634, 722);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
 
 
     }
