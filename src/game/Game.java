@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
+import java.util.Timer;
 
 
 public class Game extends JPanel implements KeyListener {
@@ -26,26 +27,30 @@ public class Game extends JPanel implements KeyListener {
 
     private final GameMap map;
 
-    private final PacMan pacMan;
+    private PacMan pacMan;
 
-    private final Ghost hunterGhost;
-    private final Ghost shyGhost;
-    private final Ghost wanderingGhost;
+    private Ghost hunterGhost;
+    private Ghost shyGhost;
+    private Ghost wanderingGhost;
 
-    private final Ghost hunterGhostsBrother;
+    private Ghost hunterGhostsBrother;
 
     private final scorePanel scorepanel;
 
-    private final JButton backButton;
+    private JButton backButton;
 
     private final JPanel mainpanel;
+
+    private String PlayerName;
+
+    private Timer timer;
 
     public Game(GameMap map, scorePanel scorePanel, JPanel panel) {
         this.scorepanel = scorePanel;
         this.map = map;
+
         this.mainpanel = panel;
         squareSize = map.getSquareSize();
-        pacMan = new PacMan(map, 13, 17);
 
 
         //for blocks with no content
@@ -145,13 +150,6 @@ public class Game extends JPanel implements KeyListener {
         HunterGhostsBrotherImages.add(loadImage("res_files/HunterGhostsBrother/down_1.png"));
         HunterGhostsBrotherImages.add(loadImage("res_files/HunterGhostsBrother/down_2.png"));
 
-        pacMan.setImages(PacManImages.get(0), PacManImages.get(0));
-
-        hunterGhost = new HunterGhost(map, 11, 13, pacMan, HunterGhostImages);
-        shyGhost = new ShyGhost(map, 15, 13, pacMan, ShyGhostImages);
-        wanderingGhost = new WandereingGhost(map, 15, 15, pacMan, WandereingGhostImages);
-        hunterGhostsBrother = new HunterGhostsBrother(map, 11, 15, pacMan, HunterGhostsBrotherImages);
-        addKeyListener(this);
 
         backButton = new JButton("Főmenü");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -185,11 +183,27 @@ public class Game extends JPanel implements KeyListener {
         this.add(backButton);
 
 
+        addKeyListener(this);
         setFocusable(true);
     }
 
+    public void Init() {
+        backButton.setVisible(false);
+        scorepanel.Init();
+        pacMan = new PacMan(map, 13, 17);
+        pacMan.setImages(PacManImages.get(0), PacManImages.get(0));
+        hunterGhost = new HunterGhost(map, 11, 13, pacMan, HunterGhostImages);
+        shyGhost = new ShyGhost(map, 15, 13, pacMan, ShyGhostImages);
+        wanderingGhost = new WandereingGhost(map, 15, 15, pacMan, WandereingGhostImages);
+        hunterGhostsBrother = new HunterGhostsBrother(map, 11, 15, pacMan, HunterGhostsBrotherImages);
+
+    }
+
     public void StartGame() {
-        java.util.Timer timer = new java.util.Timer();
+        if (timer != null) {
+            timer.cancel(); // Ha van már időzítő, leállítjuk
+        }
+        timer = new java.util.Timer();
         timer.scheduleAtFixedRate(new Move(), 0, 250);
     }
 
@@ -240,6 +254,9 @@ public class Game extends JPanel implements KeyListener {
 
     }
 
+    public void setPlayerName(String playerName) {
+        PlayerName = playerName;
+    }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();

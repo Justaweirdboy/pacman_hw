@@ -9,11 +9,15 @@ public class scorePanel extends JPanel {
     private long timeElapsed; // Idő milliszekundumban
 
     public scorePanel() {
+
+        setPreferredSize(new Dimension(634, 50));
+        setBackground(Color.DARK_GRAY);
+    }
+
+    public void Init() {
         this.score = 0;
         this.playerName = "Player 1";
         this.timeElapsed = 0;
-        setPreferredSize(new Dimension(634, 50));
-        setBackground(Color.DARK_GRAY);
     }
 
     public void setScore(int score) {

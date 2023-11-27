@@ -80,45 +80,91 @@ public class Main {
     }
 
 
-    public static JPanel createMenuPanel(JPanel mainPanel, Game game) {
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 100)); // Gombok középre igazítása és térköz beállítása
+    private static JPanel createMenuPanel(JPanel mainPanel, Game game) {
+        JPanel menuPanel = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon imageIcon = new ImageIcon("res_files/bgGIF.gif"); // A saját GIF fájlod elérési útvonala
+                Image image = imageIcon.getImage();
+                g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
+        menuPanel.setBackground(Color.BLACK);
+        JPanel inputPanel = new JPanel(new BorderLayout()); // Panel a játékosnév mezőhöz
 
+        JTextField playerNameField = new JTextField(15);
         JButton startGameButton = new JButton("Start Game");
         JButton leaderboardButton = new JButton("Leaderboard");
 
-        // Stílus beállítása a gombokhoz
-        Font buttonFont = new Font("Arial", Font.BOLD, 24);
+        // Gombok stílusának beállítása
+        Font buttonFont = new Font("Arial", Font.BOLD, 18);
         startGameButton.setFont(buttonFont);
+        startGameButton.setPreferredSize(new Dimension(200, 60));
         startGameButton.setForeground(Color.WHITE);
         startGameButton.setBackground(Color.BLUE);
-        startGameButton.setPreferredSize(new Dimension(250, 80));
         startGameButton.setFocusPainted(false);
 
         leaderboardButton.setFont(buttonFont);
+        leaderboardButton.setPreferredSize(new Dimension(200, 60));
         leaderboardButton.setForeground(Color.WHITE);
         leaderboardButton.setBackground(Color.GREEN);
-        leaderboardButton.setPreferredSize(new Dimension(250, 80));
         leaderboardButton.setFocusPainted(false);
 
-        // Gombok hozzáadása a menüpanelhez
-        menuPanel.add(startGameButton);
-        menuPanel.add(leaderboardButton);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(20, 20, 20, 20); // Távolság a frame szélétől és a komponensek között
 
-        // Gomb eseménykezelők
         startGameButton.addActionListener(e -> {
-            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-            cardLayout.show(mainPanel, "Game");
-
-            game.StartGame();
-            game.requestFocus();
+            String playerName = playerNameField.getText();
+            if (!playerName.isEmpty()) {
+                game.setPlayerName(playerName);
+                CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+                game.Init();
+                cardLayout.show(mainPanel, "Game");
+                game.StartGame();
+                game.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(menuPanel, "Add meg a neved, vagy Pacman megharap hamm hamm");
+            }
         });
 
         leaderboardButton.addActionListener(e -> {
             // Ranglista megjelenítése
         });
 
-        return menuPanel;
+        JLabel nameLabel = new JLabel("Enter Your Name:");
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        nameLabel.setForeground(Color.WHITE);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        menuPanel.add(nameLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(2, 50, 20, 50); // Kis távolság a névmező előtt
+        menuPanel.add(playerNameField, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(20, 50, 30, 50); // Kis távolság a gombok között
+        menuPanel.add(startGameButton, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(20, 50, 50, 50); // Nagy távolság a leaderboard gombtól az aljáig
+        menuPanel.add(leaderboardButton, gbc);
+
+        inputPanel.add(menuPanel, BorderLayout.CENTER);
+
+
+        CardLayout cardLayout = new CardLayout();
+        inputPanel.setLayout(cardLayout);
+        cardLayout.show(inputPanel, "Menu");
+
+        startGameButton.addActionListener(e -> cardLayout.show(inputPanel, "Input"));
+
+
+        return inputPanel;
     }
 
     private static JPanel createGamePanel(JPanel mainPanel, Game game, scorePanel scorePanel) {
