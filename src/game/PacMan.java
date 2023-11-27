@@ -105,6 +105,10 @@ public class PacMan extends Entity {
         Score += points;
     }
 
+    public int getScore() {
+        return Score;
+    }
+
     public boolean isKillerMode() {
         return killerMode;
     }

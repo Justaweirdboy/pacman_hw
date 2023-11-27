@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
+
 public class Game extends JPanel implements KeyListener {
 
 
@@ -31,8 +32,12 @@ public class Game extends JPanel implements KeyListener {
 
     private final Ghost hunterGhostsBrother;
 
+    private final scorePanel scorepanel;
 
-    public Game(GameMap map) {
+    private final JButton backButton;
+
+    public Game(GameMap map, scorePanel scorePanel) {
+        this.scorepanel = scorePanel;
         this.map = map;
         squareSize = map.getSquareSize();
         pacMan = new PacMan(map, 13, 17);
@@ -138,15 +143,50 @@ public class Game extends JPanel implements KeyListener {
         pacMan.setImages(PacManImages.get(0), PacManImages.get(0));
 
         hunterGhost = new HunterGhost(map, 11, 13, pacMan, HunterGhostImages);
-        shyGhost = new ShyGhost(map, 13, 13, pacMan, ShyGhostImages);
-        wanderingGhost = new WandereingGhost(map, 13, 15, pacMan, WandereingGhostImages);
+        shyGhost = new ShyGhost(map, 15, 13, pacMan, ShyGhostImages);
+        wanderingGhost = new WandereingGhost(map, 15, 15, pacMan, WandereingGhostImages);
         hunterGhostsBrother = new HunterGhostsBrother(map, 11, 15, pacMan, HunterGhostsBrotherImages);
         addKeyListener(this);
-        java.util.Timer timer = new java.util.Timer();
-        timer.scheduleAtFixedRate(new Move(), 0, 70);
+
+        backButton = new JButton("Főmenü");
+        backButton.setFont(new Font("Arial", Font.BOLD, 18));
+        backButton.setPreferredSize(new Dimension(150, 50));
+        backButton.addActionListener(e -> {
+            Main.createMenuPanel();
+        });
+
+        // hide button and revel only if game has ended
+        backButton.setVisible(false);
+
+        Color originalBackground = backButton.getBackground();
+        backButton.setBackground(new Color(255, 255, 255, 150));
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+
+                backButton.setBackground(null);
+                repaint();
+
+
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Color originalBackground = backButton.getBackground();
+                backButton.setBackground(new Color(255, 255, 255, 150));
+            }
+        });
+        // add button to the panel
+        this.setLayout(new FlowLayout());
+        this.add(backButton);
+
 
         setFocusable(true);
     }
+
+    public void StartGame() {
+        java.util.Timer timer = new java.util.Timer();
+        timer.scheduleAtFixedRate(new Move(), 0, 250);
+    }
+
 
     private Image loadImage(String fileName) {
         ImageIcon icon = new ImageIcon(fileName);
@@ -156,6 +196,7 @@ public class Game extends JPanel implements KeyListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
 
         int y = 0;
 
@@ -178,6 +219,18 @@ public class Game extends JPanel implements KeyListener {
         shyGhost.draw(g, this);
         wanderingGhost.draw(g, this);
         hunterGhostsBrother.draw(g, this);
+        if (pacMan.isDead()) {
+            // Game Over felirat
+            g.setColor(Color.RED);
+            g.setFont(new Font("Arial", Font.BOLD, 48));
+            String gameOverText = "Game Over";
+            int textWidth = g.getFontMetrics().stringWidth(gameOverText);
+            g.drawString(gameOverText, (getWidth() - textWidth) / 2, getHeight() / 2);
+            backButton.setLocation((getWidth() - backButton.getWidth()) / 2, getHeight() / 2 + 50);
+            backButton.setVisible(true);
+
+
+        }
 
     }
 
@@ -214,10 +267,21 @@ public class Game extends JPanel implements KeyListener {
 
     private class Move extends TimerTask {
 
+        private final long startTime;
+
+        public Move() {
+            startTime = System.currentTimeMillis();
+        }
 
         public void run() {
-            if (pacMan.isDead())
+
+            if (pacMan.isDead()) {
                 return;
+            }
+            long currentTime = System.currentTimeMillis(); //actual time
+            long elapsedTime = currentTime - startTime; // to get elapsed time
+            scorepanel.setTimeElapsed(elapsedTime);
+            scorepanel.setScore(pacMan.getScore());
             if (pacMan.isKillerMode()) {
                 setGhostsFrightened();
                 pacMan.setKillerMode(false);

@@ -10,8 +10,8 @@ public class WandereingGhost extends Ghost {
 
         relativeX = 5 * squareSize;
         relativeY = 5 * squareSize;
-        chasePointsX = new int[]{1, 1, 10, 26};
-        chasePointsY = new int[]{1, 29, 28, 29};
+        chasePointsX = new int[]{1, 26, 1, 26};
+        chasePointsY = new int[]{1, 29, 29, 1};
     }
 
 

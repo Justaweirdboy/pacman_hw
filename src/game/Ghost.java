@@ -6,8 +6,9 @@ import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.*;
 
-enum GhostMode {Chasing, Scattered}
+enum GhostMode {Chasing, Scattered, Dead}
 
 public abstract class Ghost extends Entity {
 
@@ -34,8 +35,8 @@ public abstract class Ghost extends Entity {
     protected int alternatePointChaseDuration = 10;
     protected int relativeX = 0;
     protected int relativeY = 0;
-
-    protected Image[] frightened = new Image[2];
+    protected Image dead;
+    protected Image[] scattered = new Image[2];
     protected ArrayList<Image> GhostImages;
     protected int animationCounter = 0;
 
@@ -49,44 +50,108 @@ public abstract class Ghost extends Entity {
         setImages(GhostImages.get(0), GhostImages.get(0));
 
         ImageIcon icon = new ImageIcon("res_files/frightened/fr1.png");
-        frightened[0] = icon.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
+        scattered[0] = icon.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
 
         ImageIcon icon2 = new ImageIcon("res_files/frightened/fr2.png");
-        frightened[1] = icon.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
+        scattered[1] = icon2.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
+
+        ImageIcon icon3 = new ImageIcon("res_files/dead.png");
+        dead = icon3.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
 
 
     }
 
     //findPath also tells if collision happens
     private boolean findPath(int targetX, int targetY) {
+        // Létrehozunk egy sorrendben feldolgozandó pontokat tároló listát
+        Queue<Point> queue = new LinkedList<>();
+        // Tároljuk az eddig felfedezett pontokat
+        boolean[][] visited = new boolean[map.length][map[0].length];
+        // Tároljuk az előző pontokat az útvonal visszakövetéséhez
+        Point[][] previous = new Point[map.length][map[0].length];
 
+        // Kezdőpont hozzáadása a listához és megjelölése felfedezettként
+        Point start = new Point(PositionX / squareSize, PositionY / squareSize);
+        queue.add(start);
+        visited[start.y][start.x] = true;
 
-        if (PositionX < targetX && canMove(PositionX + squareSize, PositionY)) {
+        // BFS algoritmus
+        while (!queue.isEmpty()) {
+            Point current = queue.poll();
+
+            // Ha elértük a célpontot, visszakövetjük az útvonalat és végrehajtjuk a mozgást
+            if (current.x * squareSize == targetX && current.y * squareSize == targetY) {
+                executeMovement(previous, start, current);
+                return PositionX == targetX && PositionY == targetY; // Sikeresen találtunk utat
+            }
+
+            // Szomszédok felfedezése
+            for (Point neighbor : getNeighbors(current)) {
+                // Ha a szomszédos pont megfelelő és még nem volt felfedezve
+                if (isValidMove(neighbor.x, neighbor.y) && !visited[neighbor.y][neighbor.x]) {
+                    queue.add(neighbor);
+                    visited[neighbor.y][neighbor.x] = true;
+                    previous[neighbor.y][neighbor.x] = current;
+                }
+            }
+        }
+
+        return PositionX == targetX && PositionY == targetY; // Nem találtunk utat a célpontig
+    }
+
+    // Segédfüggvény a szomszédos pontok meghatározásához
+    private List<Point> getNeighbors(Point point) {
+        List<Point> neighbors = new ArrayList<>();
+        // Ellenőrzés a négy szomszédos pont felé
+        // Például: jobbra, balra, fel, le
+        neighbors.add(new Point(point.x + 1, point.y));
+        neighbors.add(new Point(point.x - 1, point.y));
+        neighbors.add(new Point(point.x, point.y + 1));
+        neighbors.add(new Point(point.x, point.y - 1));
+        return neighbors;
+    }
+
+    // Segédfüggvény az érvényes mozgás ellenőrzéséhez
+    private boolean isValidMove(int x, int y) {
+        // Ellenőrizzük, hogy a pont a térképen belül van-e és megfelelő mezőre mozoghatunk-e
+        return x >= 0 && y >= 0 && y < map.length && x < map[0].length && canMove(x * squareSize, y * squareSize);
+    }
+
+    // Segédfüggvény az útvonal végrehajtásához
+    private void executeMovement(Point[][] previous, Point start, Point target) {
+        List<Point> path = new ArrayList<>();
+        Point current = target;
+
+        // Visszakövetjük az útvonalat a célponttól a kiindulópontig
+        while (!current.equals(start)) {
+            path.add(current);
+            current = previous[current.y][current.x];
+        }
+
+        // Az útvonalat megfordítjuk, hogy a kiindulóponttól a célpontig legyen
+        Collections.reverse(path);
+        if (path.isEmpty())
+            return;
+        Point point = path.get(0);
+        // Az útvonalat végrehajtjuk a szellem mozgatásához
+
+        int targetX = point.x * squareSize;
+        int targetY = point.y * squareSize;
+
+        if (PositionX < targetX) {
             PositionX += squareSize;
             setImages(GhostImages.get(1), GhostImages.get(2));
-
-        } else if (PositionX > targetX && canMove(PositionX - squareSize, PositionY)) {
-
+        } else if (PositionX > targetX) {
             PositionX -= squareSize;
             setImages(GhostImages.get(3), GhostImages.get(4));
-
-        } else if (PositionY < targetY && canMove(PositionX, PositionY + squareSize)) {
-            if (isInTheFrontOfTheGH()) {
-                PositionX += squareSize;
-                setImages(GhostImages.get(1), GhostImages.get(2));
-                return PositionX == targetX && PositionY == targetY;
-            }
+        } else if (PositionY < targetY) {
             PositionY += squareSize;
             setImages(GhostImages.get(7), GhostImages.get(8));
-
-        } else if (PositionY > targetY && canMove(PositionX, PositionY - squareSize)) {
+        } else if (PositionY > targetY) {
             PositionY -= squareSize;
             setImages(GhostImages.get(5), GhostImages.get(6));
 
         }
-
-
-        return PositionX == targetX && PositionY == targetY;
     }
 
     public void move() {
@@ -103,16 +168,12 @@ public abstract class Ghost extends Entity {
                     counterForMovement = 2;
                     return;
                 }
-                if (isTheGhostHouse()) {
-                    findPath(13 * squareSize, 11 * squareSize);
-                    counterForMovement = 2;
-                    return;
-                }
+
                 if (!wannaChase()) {
                     //to loop alternate chasing points
-                    if (findPath(chasePointsX[chasePointNext] * squareSize, chasePointsY[chasePointNext] * squareSize) || --alternatePointChaseDuration == 0) {
+                    if (findPath(chasePointsX[chasePointNext] * squareSize, chasePointsY[chasePointNext] * squareSize)) {
                         chasePointNext = (++chasePointNext) % chasePointsX.length;
-                        alternatePointChaseDuration = 10;
+
                     }
 
                 } else {
@@ -143,18 +204,25 @@ public abstract class Ghost extends Entity {
                     counter = 30;
                 }
                 if (isCollision()) {
-                    Reset();
+                    ghostMode = GhostMode.Dead;
                     pacMan.addScore(200);
+                    CounterForSlowMovement = 4;
+                    return;
+
                 }
-                if (findPath(StartPositionX, StartPositionY))
-                    ghostMode = GhostMode.Chasing;
+                findPath(StartPositionX, StartPositionY);
+
 
                 if (isCollision()) {
-                    Reset();
+                    ghostMode = GhostMode.Dead;
                     pacMan.addScore(200);
                 }
 
                 CounterForSlowMovement = 4;
+            }
+            case Dead -> {
+                if (findPath(StartPositionX, StartPositionY))
+                    ghostMode = GhostMode.Chasing;
             }
 
 
@@ -201,9 +269,12 @@ public abstract class Ghost extends Entity {
         Image img;
         if (ghostMode == GhostMode.Chasing) {
             img = animationImages[(animationCounter++) % 2];
+        } else if (ghostMode == GhostMode.Scattered) {
+            img = scattered[(animationCounter++) % 2];
         } else {
-            img = frightened[(animationCounter++) % 2];
+            img = dead;
         }
+
         g.drawImage(img, PositionX, PositionY, observer);
     }
 
