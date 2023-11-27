@@ -3,5 +3,12 @@ B
 java:S1948"%Make "map" transient or serializable.(Šï´ò8ØòÊ¿1
 J
 java:S1948"(Make "pacMan" transient or serializable.(€úÚ’ùÿÿÿÿ8ÙòÊ¿1
+I
+java:S1948"'Make "ghost" transient or serializable.(À¶×şÿÿÿÿÿ8éŞˆÀÀ1
 W
 java:S1161G":Add the "@Override" annotation above this method signature(³ıŸê8ãòÊ¿1
+M
+java:S1128
+"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8¹ßˆÀÀ1
+}
+java:S1128"[Remove this unused import 'com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener'.(»ÔÛøøÿÿÿÿ8¹ßˆÀÀ1

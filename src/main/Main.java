@@ -1,3 +1,4 @@
+package main;
 
 import game.Game;
 import game.GameMap;
@@ -42,38 +43,31 @@ public class Main {
             GameMap map = new GameMap(matrix, 22);
             JFrame frame = new JFrame();
 
-            JPanel gamePanel = new JPanel();
-            gamePanel.setLayout(new BorderLayout());
-
+            JPanel mainPanel = new JPanel(new CardLayout());
             scorePanel scorePanel = new scorePanel();
-            scorePanel.setPreferredSize(new Dimension(634, 50)); // Méret beállítása a pontszámnak
+            scorePanel.setPreferredSize(new Dimension(634, 50));
             scorePanel.setBackground(Color.DARK_GRAY);
 
-            Game game = new Game(map, scorePanel);
+            Game game = new Game(map, scorePanel, mainPanel);
             game.setPreferredSize(new Dimension(634, 722));
             game.setBackground(Color.BLACK);
-            gamePanel.add(game, BorderLayout.CENTER);
 
-
-            gamePanel.setBackground(Color.DARK_GRAY);
-            frame.add(gamePanel);
-            frame.add(scorePanel, BorderLayout.SOUTH);
 
             frame.setSize(634, 772);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
-            JPanel mainPanel = new JPanel(new CardLayout());
 
-            // Menü panel létrehozása
+
             JPanel menuPanel = createMenuPanel(mainPanel, game);
             mainPanel.add(menuPanel, "Menu");
 
-            // Játék panel létrehozása
-            //JPanel gamePanel = createGamePanel(mainPanel);
+
+            JPanel gamePanel = createGamePanel(mainPanel, game, scorePanel);
             mainPanel.add(gamePanel, "Game");
 
+
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-            cardLayout.show(mainPanel, "Menu"); // Kezdetben a menü látható
+            cardLayout.show(mainPanel, "Menu"); //
 
             frame.add(mainPanel);
             frame.setVisible(true);
@@ -115,6 +109,7 @@ public class Main {
         startGameButton.addActionListener(e -> {
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
             cardLayout.show(mainPanel, "Game");
+
             game.StartGame();
             game.requestFocus();
         });
@@ -126,18 +121,22 @@ public class Main {
         return menuPanel;
     }
 
-    /*private static JPanel createGamePanel(JPanel mainPanel) {
-        JPanel gamePanel = new JPanel();
-        gamePanel.setBackground(Color.BLACK); // A játékpanel csak fekete háttérrel, ezt testreszabhatod a saját játékodnak megfelelően
+    private static JPanel createGamePanel(JPanel mainPanel, Game game, scorePanel scorePanel) {
+        JPanel gamePanel = new JPanel(new BorderLayout());
+
+
+        gamePanel.add(game, BorderLayout.CENTER);
+        gamePanel.add(scorePanel, BorderLayout.SOUTH);
+
 
         JButton backButton = new JButton("Back to Menu");
         backButton.addActionListener(e -> {
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-            cardLayout.show(mainPanel, "Menu"); // Visszatérés a menüpanelre
+            cardLayout.show(mainPanel, "Menu");
         });
 
-        gamePanel.add(backButton);
+        //gamePanel.add(backButton);
 
         return gamePanel;
-    }*/
+    }
 }

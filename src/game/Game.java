@@ -1,5 +1,7 @@
 package game;
 
+import main.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -36,9 +38,12 @@ public class Game extends JPanel implements KeyListener {
 
     private final JButton backButton;
 
-    public Game(GameMap map, scorePanel scorePanel) {
+    private final JPanel mainpanel;
+
+    public Game(GameMap map, scorePanel scorePanel, JPanel panel) {
         this.scorepanel = scorePanel;
         this.map = map;
+        this.mainpanel = panel;
         squareSize = map.getSquareSize();
         pacMan = new PacMan(map, 13, 17);
 
@@ -152,7 +157,8 @@ public class Game extends JPanel implements KeyListener {
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setPreferredSize(new Dimension(150, 50));
         backButton.addActionListener(e -> {
-            Main.createMenuPanel();
+            CardLayout cardLayout = (CardLayout) mainpanel.getLayout();
+            cardLayout.show(mainpanel, "Menu");
         });
 
         // hide button and revel only if game has ended
@@ -164,7 +170,7 @@ public class Game extends JPanel implements KeyListener {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
 
                 backButton.setBackground(null);
-                repaint();
+                //repaint();
 
 
             }
