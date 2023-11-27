@@ -112,7 +112,23 @@ public class Main {
         leaderboardButton.setFocusPainted(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20); // Távolság a frame szélétől és a komponensek között
+        gbc.insets = new Insets(20, 20, 20, 20); // Távolság a frame szélétől és a komponensek
+
+        startGameButton.setOpaque(false);
+        startGameButton.setContentAreaFilled(false);
+        startGameButton.setBorderPainted(true);
+
+// Gombra egérrel mutatáskor a háttérszín beállítása
+        startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                startGameButton.setContentAreaFilled(true);
+                startGameButton.setBackground(Color.BLUE); // Ide írd be a színkódodat
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                startGameButton.setContentAreaFilled(false);
+            }
+        });
 
         startGameButton.addActionListener(e -> {
             String playerName = playerNameField.getText();
@@ -130,6 +146,21 @@ public class Main {
 
         leaderboardButton.addActionListener(e -> {
             // Ranglista megjelenítése
+        });
+
+        leaderboardButton.setOpaque(false);
+        leaderboardButton.setContentAreaFilled(false);
+        leaderboardButton.setBorderPainted(true);
+
+        leaderboardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                leaderboardButton.setContentAreaFilled(true);
+                leaderboardButton.setBackground(Color.GREEN); // Ide írd be a színkódodat
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                leaderboardButton.setContentAreaFilled(false);
+            }
         });
 
         JLabel nameLabel = new JLabel("Enter Your Name:");
