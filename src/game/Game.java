@@ -1,6 +1,7 @@
 package game;
 
-import main.Main;
+import player.LeaderBoard;
+import player.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class Game extends JPanel implements KeyListener {
 
     private final GameMap map;
 
+
     private PacMan pacMan;
 
     private Ghost hunterGhost;
@@ -45,10 +47,12 @@ public class Game extends JPanel implements KeyListener {
 
     private Timer timer;
 
-    public Game(GameMap map, scorePanel scorePanel, JPanel panel) {
+    private LeaderBoard leaderBoard;
+
+    public Game(GameMap map, scorePanel scorePanel, JPanel panel, LeaderBoard leaderBoard) {
         this.scorepanel = scorePanel;
         this.map = map;
-
+        this.leaderBoard = leaderBoard;
         this.mainpanel = panel;
         squareSize = map.getSquareSize();
 
@@ -155,6 +159,8 @@ public class Game extends JPanel implements KeyListener {
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setPreferredSize(new Dimension(150, 50));
         backButton.addActionListener(e -> {
+            leaderBoard.getPlayers().add(new Player(scorepanel.getPlayerName(), scorepanel.getScore(), scorepanel.getTimeElapsed()));
+            leaderBoard.writeToFile("res_files/leaderboard.dat");
             CardLayout cardLayout = (CardLayout) mainpanel.getLayout();
             cardLayout.show(mainpanel, "Menu");
         });
@@ -213,6 +219,9 @@ public class Game extends JPanel implements KeyListener {
         return icon.getImage().getScaledInstance(squareSize, squareSize, Image.SCALE_DEFAULT);
     }
 
+    public PacMan getPacMan() {
+        return pacMan;
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -239,7 +248,9 @@ public class Game extends JPanel implements KeyListener {
         shyGhost.draw(g, this);
         wanderingGhost.draw(g, this);
         hunterGhostsBrother.draw(g, this);
-        if (pacMan.isDead()) {
+        if (pacMan.isOver()) {
+            timer.cancel();
+
             // Game Over felirat
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 48));
@@ -254,9 +265,6 @@ public class Game extends JPanel implements KeyListener {
 
     }
 
-    public void setPlayerName(String playerName) {
-        PlayerName = playerName;
-    }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -298,7 +306,8 @@ public class Game extends JPanel implements KeyListener {
 
         public void run() {
 
-            if (pacMan.isDead()) {
+            if (pacMan.isOver()) {
+
                 return;
             }
             long currentTime = System.currentTimeMillis(); //actual time

@@ -1,13 +1,7 @@
 package game;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.image.ImageObserver;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class PacMan extends Entity {
 
@@ -23,6 +17,7 @@ public class PacMan extends Entity {
     private int mouthState = 0;
 
     private boolean killerMode = false;
+    private int foodcounter = 240 + 4;
 
 
     PacMan(GameMap map, int PositionX, int PositionY) {
@@ -41,11 +36,13 @@ public class PacMan extends Entity {
             if (map[newY / squareSize][newX / squareSize] == '*') {
                 //TODO add score
                 map[newY / squareSize][newX / squareSize] = ' ';
+                --foodcounter;
                 Score += 10;
             }
             if (map[newY / squareSize][newX / squareSize] == '0') {
                 //TODO add score
                 map[newY / squareSize][newX / squareSize] = ' ';
+                --foodcounter;
                 killerMode = true;
             }
 
@@ -85,8 +82,8 @@ public class PacMan extends Entity {
         --HP;
     }
 
-    public boolean isDead() {
-        return HP == 0;
+    public boolean isOver() {
+        return HP == 0 || foodcounter == 0;
     }
 
     public void Reset() {
@@ -115,6 +112,10 @@ public class PacMan extends Entity {
 
     public void setKillerMode(boolean killerMode) {
         this.killerMode = killerMode;
+    }
+
+    public int getCounterForMovement() {
+        return counterForMovement;
     }
 }
 

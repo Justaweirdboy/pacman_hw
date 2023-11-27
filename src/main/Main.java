@@ -3,6 +3,7 @@ package main;
 import game.Game;
 import game.GameMap;
 import game.scorePanel;
+import player.LeaderBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Main {
     public static void main(String[] args) {
         // name of the file which contains the map
         String fileName = "res_files/map.txt";
+
 
         try {
             File file = new File(fileName);
@@ -48,7 +50,10 @@ public class Main {
             scorePanel.setPreferredSize(new Dimension(634, 50));
             scorePanel.setBackground(Color.DARK_GRAY);
 
-            Game game = new Game(map, scorePanel, mainPanel);
+            LeaderBoard leaderBoard = new LeaderBoard(mainPanel);
+            leaderBoard.readFromFile("res_files/leaderboard.dat");
+
+            Game game = new Game(map, scorePanel, mainPanel, leaderBoard);
             game.setPreferredSize(new Dimension(634, 722));
             game.setBackground(Color.BLACK);
 
@@ -58,12 +63,14 @@ public class Main {
             frame.setVisible(true);
 
 
-            JPanel menuPanel = createMenuPanel(mainPanel, game);
+            JPanel menuPanel = createMenuPanel(mainPanel, game, scorePanel, leaderBoard);
             mainPanel.add(menuPanel, "Menu");
 
 
             JPanel gamePanel = createGamePanel(mainPanel, game, scorePanel);
             mainPanel.add(gamePanel, "Game");
+
+            mainPanel.add(leaderBoard, "LeaderBoard");
 
 
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
@@ -80,7 +87,7 @@ public class Main {
     }
 
 
-    private static JPanel createMenuPanel(JPanel mainPanel, Game game) {
+    private static JPanel createMenuPanel(JPanel mainPanel, Game game, scorePanel scorepanel, LeaderBoard leaderBoard) {
         JPanel menuPanel = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -95,7 +102,7 @@ public class Main {
 
         JTextField playerNameField = new JTextField(15);
         JButton startGameButton = new JButton("Start Game");
-        JButton leaderboardButton = new JButton("Leaderboard");
+        JButton leaderboardButton = new JButton("LeaderBoard");
 
         // Gombok stílusának beállítása
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
@@ -133,9 +140,10 @@ public class Main {
         startGameButton.addActionListener(e -> {
             String playerName = playerNameField.getText();
             if (!playerName.isEmpty()) {
-                game.setPlayerName(playerName);
+                scorepanel.setPlayerName(playerName);
                 CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
                 game.Init();
+                scorepanel.setPacMan(game.getPacMan());
                 cardLayout.show(mainPanel, "Game");
                 game.StartGame();
                 game.requestFocus();
@@ -145,7 +153,9 @@ public class Main {
         });
 
         leaderboardButton.addActionListener(e -> {
-            // Ranglista megjelenítése
+            leaderBoard.refreshTable();
+            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+            cardLayout.show(mainPanel, "LeaderBoard");
         });
 
         leaderboardButton.setOpaque(false);
@@ -205,14 +215,6 @@ public class Main {
         gamePanel.add(game, BorderLayout.CENTER);
         gamePanel.add(scorePanel, BorderLayout.SOUTH);
 
-
-        JButton backButton = new JButton("Back to Menu");
-        backButton.addActionListener(e -> {
-            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-            cardLayout.show(mainPanel, "Menu");
-        });
-
-        //gamePanel.add(backButton);
 
         return gamePanel;
     }

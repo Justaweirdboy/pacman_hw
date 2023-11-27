@@ -1,14 +1,46 @@
 
+s	java:S116"WRename this field "PacManImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ã£•†8ú¼ĞÁ1
+x	java:S116"\Rename this field "HunterGhostImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÄÀù8ú¼ĞÁ1
+u	java:S116"YRename this field "ShyGhostImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸Ä™Ÿ8ú¼ĞÁ1
+|	java:S116"`Rename this field "WandereingGhostImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”ÒÎÅ8ú¼ĞÁ1
+€	java:S116"dRename this field "HunterGhostsBrotherImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãˆè¼8ú¼ĞÁ1
+q	java:S116."URename this field "PlayerName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïçÁø8û¼ĞÁ1
+v
+java:S1450."YRemove the "PlayerName" field and declare it as a local variable in the relevant methods.(ïçÁø8ş¼ĞÁ1
 B
-java:S1948"%Make "map" transient or serializable.(Šï´ò8ØòÊ¿1
+java:S1948"%Make "map" transient or serializable.(›Æ¬ª8ÿ¼ĞÁ1
 J
-java:S1948"(Make "pacMan" transient or serializable.(€úÚ’ùÿÿÿÿ8ÙòÊ¿1
-I
-java:S1948"'Make "ghost" transient or serializable.(À¶×şÿÿÿÿÿ8éŞˆÀÀ1
+java:S1948 "(Make "pacMan" transient or serializable.(€úÚ’ùÿÿÿÿ8€½ĞÁ1
+J
+java:S1948""-Make "hunterGhost" transient or serializable.(ÌÚÓÜ8€½ĞÁ1
+G
+java:S1948#"*Make "shyGhost" transient or serializable.(àò£8€½ĞÁ1
+R
+java:S1948$"0Make "wanderingGhost" transient or serializable.(ª•¢Œşÿÿÿÿ8€½ĞÁ1
 W
-java:S1161G":Add the "@Override" annotation above this method signature(³ıŸê8ãòÊ¿1
-M
-java:S1128
-"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8¹ßˆÀÀ1
-}
-java:S1128"[Remove this unused import 'com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener'.(»ÔÛøøÿÿÿÿ8¹ßˆÀÀ1
+java:S1948&"5Make "hunterGhostsBrother" transient or serializable.(œÆê°üÿÿÿÿ8€½ĞÁ1
+I
+java:S19480"'Make "timer" transient or serializable.(å¡Ê˜ûÿÿÿÿ8€½ĞÁ1
+U
+java:S1481«"7Remove this unused "originalBackground" local variable.(ÃøÌ8›½ĞÁ1
+X
+java:S1161®":Add the "@Override" annotation above this method signature(—¶Ğé8œ½ĞÁ1
+Y	java:S125±"<This block of commented-out lines of code should be removed.(÷µ¹8œ½ĞÁ1
+d
+java:S1854·"FRemove this useless assignment to local variable "originalBackground".(ÃøÌ8œ½ĞÁ1
+]
+java:S1161¶":Add the "@Override" annotation above this method signature(™ÅšÊûÿÿÿÿ8œ½ĞÁ1
+U
+java:S1481·"7Remove this unused "originalBackground" local variable.(ÃøÌ8œ½ĞÁ1
+k	java:S100Ä"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ğ‚‘8¡½ĞÁ1
+p	java:S100Ğ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó€âõÿÿÿÿÿ8¡½ĞÁ1
+X
+java:S1161ß":Add the "@Override" annotation above this method signature(³ıŸê8¨½ĞÁ1
+H
+java:S1128"&Remove this unused import 'main.Main'.(®Œ²õüÿÿÿÿ8Å˜üÁ1
+@
+java:S3398Õ"Move this method into "Move".(ºõãôşÿÿÿÿ8·½ĞÁ1
+K
+java:S1068.".Remove this unused "PlayerName" private field.(ïçÁø8·½ĞÁ1
+L
+java:S10682"/Remove this unused "leaderBoard" private field.(Ú¡¤†8€üÅ‘Á1

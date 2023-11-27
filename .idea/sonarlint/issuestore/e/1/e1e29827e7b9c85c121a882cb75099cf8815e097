@@ -1,7 +1,13 @@
 
-r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(μόΕσωÿÿÿÿ8ηρΏ1
-r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(μόΕσωÿÿÿÿ8ηρΏ1
-p	java:S116"TRename this field "PositionX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’Αϋÿ8›ηρΏ1
-p	java:S116	"TRename this field "PositionY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(θμΫ8ηρΏ1
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(μόΕσωÿÿÿÿ8Ιελ‡Α1
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(μόΕσωÿÿÿÿ8Ιελ‡Α1
+p	java:S116	"TRename this field "PositionX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’Αϋÿ8θελ‡Α1
+p	java:S116
+"TRename this field "PositionY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(θμΫ8θελ‡Α1
+u	java:S116"YRename this field "StartPositionX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ί±¨8θελ‡Α1
+u	java:S116"YRename this field "StartPositionY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΓΈ«»8θελ‡Α1
+o	java:S100B"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ύκλρϋÿÿÿÿ8ζλ‡Α1
+T
+java:S1128"7Remove this unused import 'java.awt.event.ActionEvent'.(Ϊω“‘8†ζλ‡Α1
 M
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(χ‰ξƒ8¤ηρΏ1
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(χ‰ξƒ8¤ηρΏ1

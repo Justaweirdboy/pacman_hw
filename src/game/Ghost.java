@@ -165,7 +165,7 @@ public abstract class Ghost extends Entity {
                 if (isCollision()) {
                     pacMan.hpLost();
                     needsReset = true;
-                    counterForMovement = 2;
+                    counterForMovement = pacMan.getCounterForMovement();
                     return;
                 }
 
@@ -182,22 +182,20 @@ public abstract class Ghost extends Entity {
                 if (isCollision()) {
                     pacMan.hpLost();
                     needsReset = true;
-                    counterForMovement = 2;
+                    counterForMovement = pacMan.getCounterForMovement();
                     return;
                 }
 
 
-                counterForMovement = 2;
+                counterForMovement = pacMan.getCounterForMovement();
 
             }
 
 
             case Scattered -> {
-                //only moving for every fourth frame
-                if (--CounterForSlowMovement != 0) {
 
-                    return;
-                }
+                //only moving for every fourth frame
+
                 //if 10 frame have passed
                 if (--counter == 0) {
                     ghostMode = GhostMode.Chasing;
@@ -206,23 +204,30 @@ public abstract class Ghost extends Entity {
                 if (isCollision()) {
                     ghostMode = GhostMode.Dead;
                     pacMan.addScore(200);
-                    CounterForSlowMovement = 4;
+                    CounterForSlowMovement = pacMan.getCounterForMovement() * 2;
                     return;
 
                 }
-                findPath(StartPositionX, StartPositionY);
+                if (--CounterForSlowMovement == 0) {
+                    findPath(StartPositionX, StartPositionY);
+                    CounterForSlowMovement = pacMan.getCounterForMovement() * 2;
+                }
 
 
                 if (isCollision()) {
                     ghostMode = GhostMode.Dead;
                     pacMan.addScore(200);
+                    CounterForSlowMovement = pacMan.getCounterForMovement() * 2;
+                    return;
                 }
 
-                CounterForSlowMovement = 4;
+
             }
             case Dead -> {
-                if (findPath(StartPositionX, StartPositionY))
+                if (findPath(StartPositionX, StartPositionY)) {
                     ghostMode = GhostMode.Chasing;
+                    counterForMovement = pacMan.getCounterForMovement();
+                }
             }
 
 

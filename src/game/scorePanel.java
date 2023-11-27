@@ -8,15 +8,22 @@ public class scorePanel extends JPanel {
     private String playerName;
     private long timeElapsed; // Idő milliszekundumban
 
+    private PacMan pacMan;
+
     public scorePanel() {
 
         setPreferredSize(new Dimension(634, 50));
         setBackground(Color.DARK_GRAY);
+
+    }
+
+    public void setPacMan(PacMan pacMan) {
+        this.pacMan = pacMan;
     }
 
     public void Init() {
         this.score = 0;
-        this.playerName = "Player 1";
+
         this.timeElapsed = 0;
     }
 
@@ -35,6 +42,18 @@ public class scorePanel extends JPanel {
         repaint();
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public long getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -42,20 +61,25 @@ public class scorePanel extends JPanel {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        // Bal oldali pontszám
+        // score on the left side
         g.drawString("Pontszám: " + score, 10, 20);
 
-        // Középen a játékos név
+        // playername in the middle
         FontMetrics fm = g.getFontMetrics();
         int playerNameWidth = fm.stringWidth(playerName);
         int playerNameX = (getWidth() - playerNameWidth) / 2;
         g.drawString(playerName, playerNameX, 20);
 
-        // Jobb oldalon az eltelt idő
+        // elapsed time on the right side
         String timeText = "Idő: " + formatTime(timeElapsed);
         int timeTextWidth = fm.stringWidth(timeText);
         int timeTextX = getWidth() - timeTextWidth - 10;
         g.drawString(timeText, timeTextX, 20);
+
+        g.setColor(Color.RED);
+        int hpWidth = fm.stringWidth("Élet:x");
+        int hpX = (getWidth() - hpWidth) / 2;
+        g.drawString("Élet:" + pacMan.getHP(), hpX, 40);
     }
 
     // Metódus az idő formázására (pl. másodpercek és percekre)

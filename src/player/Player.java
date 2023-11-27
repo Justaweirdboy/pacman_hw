@@ -7,9 +7,28 @@ public class Player implements Serializable {
     private String name;
     private long time;
 
-    Player(String name, int score, long time) {
+    public Player(String name, int score, long time) {
         this.name = name;
         this.score = score;
         this.time = time;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public String getFormatTime() {
+        long seconds = time / 1000;
+        long minutes = seconds / 60;
+        seconds = seconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

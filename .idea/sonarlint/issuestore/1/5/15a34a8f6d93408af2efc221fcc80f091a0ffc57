@@ -1,11 +1,12 @@
 
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™—®ã8Ì÷×ò¿1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™—®ã8Ì÷×ò¿1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™—®ã8Ì÷×ò¿1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™—®ã8Ì÷×ò¿1
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÍãˆØ8à÷×ò¿1
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÍãˆØ8á÷×ò¿1
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÍãˆØ8á÷×ò¿1
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÍãˆØ8á÷×ò¿1
-w	java:S116"VRename this field "GhostHouseX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ø¶Ë´ûÿÿÿÿ8â÷×ò¿1
-w	java:S116"VRename this field "GhostHouseY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠÅ›Ìúÿÿÿÿ8â÷×ò¿1
+l	java:S117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸‡°58ÿìÁ1
+l	java:S117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸‡°58ÿìÁ1
+l	java:S117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸‡°58ÿìÁ1
+{	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Âß”½ùÿÿÿÿ8îñÁ1
+{	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Âß”½ùÿÿÿÿ8îñÁ1
+{	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Âß”½ùÿÿÿÿ8îñÁ1
+}	java:S116"aRename this field "CounterForSlowMovement" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û„“Ç8îñÁ1
+r	java:S116("VRename this field "GhostImages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çî£8îñÁ1
+u
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(œ€Íùÿÿÿÿ8¼òÁ1
+k	java:S100ñ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù²¤Ï8ÔòÁ1
