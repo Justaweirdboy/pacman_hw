@@ -196,7 +196,11 @@ public class Game extends JPanel implements KeyListener {
 
     public void Init() {
         char[][] originalArray = original_map.getGameMap();
-        char[][] copiedArray = Arrays.copyOf(originalArray, originalArray.length);
+        char[][] copiedArray = new char[originalArray.length][originalArray[0].length];
+
+        for (int i = 0; i < originalArray.length; i++) {
+            System.arraycopy(originalArray[i], 0, copiedArray[i], 0, originalArray[i].length);
+        }
         map = new GameMap(copiedArray, original_map.getSquareSize());
         backButton.setVisible(false);
         scorepanel.Init();
@@ -255,10 +259,10 @@ public class Game extends JPanel implements KeyListener {
         if (pacMan.isOver()) {
             timer.cancel();
 
-            // Game Over felirat
+            // Game Over
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 48));
-            String gameOverText = "Game Over";
+            String gameOverText = "A játék véget ért";
             int textWidth = g.getFontMetrics().stringWidth(gameOverText);
             g.drawString(gameOverText, (getWidth() - textWidth) / 2, getHeight() / 2);
             backButton.setLocation((getWidth() - backButton.getWidth()) / 2, getHeight() / 2 + 50);

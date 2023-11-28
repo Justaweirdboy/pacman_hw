@@ -77,6 +77,7 @@ public class Main {
             cardLayout.show(mainPanel, "Menu"); //
 
             frame.add(mainPanel);
+            frame.setResizable(false);
             frame.setVisible(true);
 
         } catch (FileNotFoundException e) {
@@ -92,7 +93,7 @@ public class Main {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imageIcon = new ImageIcon("res_files/bgGIF.gif"); // A saját GIF fájlod elérési útvonala
+                ImageIcon imageIcon = new ImageIcon("res_files/bgGIF.gif");
                 Image image = imageIcon.getImage();
                 g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
             }
@@ -101,8 +102,8 @@ public class Main {
         JPanel inputPanel = new JPanel(new BorderLayout()); // Panel a játékosnév mezőhöz
 
         JTextField playerNameField = new JTextField(15);
-        JButton startGameButton = new JButton("Start Game");
-        JButton leaderboardButton = new JButton("LeaderBoard");
+        JButton startGameButton = new JButton("Új Játék");
+        JButton leaderboardButton = new JButton("Ranglista");
 
         // Gombok stílusának beállítása
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
@@ -125,7 +126,7 @@ public class Main {
         startGameButton.setContentAreaFilled(false);
         startGameButton.setBorderPainted(true);
 
-// Gombra egérrel mutatáskor a háttérszín beállítása
+        //hovering the mouse ove the button effect
         startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 startGameButton.setContentAreaFilled(true);
@@ -173,7 +174,7 @@ public class Main {
             }
         });
 
-        JLabel nameLabel = new JLabel("Enter Your Name:");
+        JLabel nameLabel = new JLabel("Add meg a neved:");
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         nameLabel.setForeground(Color.WHITE);
 

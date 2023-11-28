@@ -83,7 +83,7 @@ public class PacMan extends Entity {
     }
 
     public boolean isOver() {
-        return HP == 0 || foodcounter == 0;
+        return HP <= 0 || foodcounter == 0;
     }
 
     public void Reset() {

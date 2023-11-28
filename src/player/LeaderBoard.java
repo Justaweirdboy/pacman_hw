@@ -23,15 +23,15 @@ public class LeaderBoard extends JPanel {
         this.mainpanel = mainpanel;
 
 
-        tableModel = new DefaultTableModel(new Object[]{"Name", "Score", "Time"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"Név", "Pont", "Játékban töltött idő"}, 0);
         playersTable = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(playersTable);
         add(scrollPane, BorderLayout.CENTER);
 
         // Rendezés gombok
-        JButton sortByNameButton = new JButton("Sort by Name");
-        JButton sortByScoreButton = new JButton("Sort by Score");
+        JButton sortByNameButton = new JButton("Név szerinti rendezés");
+        JButton sortByScoreButton = new JButton("Pont szerinti rendezés");
         JButton Menu = new JButton("Főmenü");
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
