@@ -38,16 +38,16 @@ public abstract class Entity {
         int tileY = y / squareSize;
 
         if (tileX < 0 || tileY < 0 || tileY >= map.length || tileX >= map[0].length) {
-            return false; // Ütközés a térkép határain kívül
+            return false;
         }
 
         char tileValue = map[tileY][tileX];
         for (char ch : validTiles) {
             if (tileValue == ch) {
-                return true; // Megengedett mezőre mozoghat
+                return true;
             }
         }
-        return false; // Ütközés egy nem megengedett mezővel
+        return false;
     }
 
     public abstract void draw(Graphics g, ImageObserver observer);

@@ -117,6 +117,14 @@ public class PacMan extends Entity {
     public int getCounterForMovement() {
         return counterForMovement;
     }
+
+    public int getDirectionX() {
+        return directionX;
+    }
+
+    public int getDirectionY() {
+        return directionY;
+    }
 }
 
 

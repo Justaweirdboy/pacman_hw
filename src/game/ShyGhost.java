@@ -10,8 +10,8 @@ public class ShyGhost extends Ghost {
     protected ShyGhost(GameMap map, int PositionX, int PositionY, PacMan pacMan, ArrayList<Image> GhostImages) {
         super(map, PositionX, PositionY, pacMan, GhostImages);
 
-        relativeX = 0 * squareSize;
-        relativeY = -1 * squareSize;
+        relativeX = -2 * squareSize;
+        relativeY = 0 * squareSize;
         chasePointsX = new int[]{1, 5};
         chasePointsY = new int[]{1, 26};
     }

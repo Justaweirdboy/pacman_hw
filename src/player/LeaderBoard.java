@@ -15,7 +15,7 @@ public class LeaderBoard extends JPanel {
     private JTable playersTable;
     private DefaultTableModel tableModel;
 
-    private JPanel mainpanel;
+    private final JPanel mainpanel;
 
     public LeaderBoard(JPanel mainpanel) {
         setLayout(new BorderLayout());

@@ -22,11 +22,13 @@ public class Game extends JPanel implements KeyListener {
 
     private final ArrayList<Image> ShyGhostImages = new ArrayList<>();
 
-    private final ArrayList<Image> WandereingGhostImages = new ArrayList<>();
+    private final ArrayList<Image> WanderingGhostImages = new ArrayList<>();
 
     private final ArrayList<Image> HunterGhostsBrotherImages = new ArrayList<>();
 
-    private final GameMap map;
+    private GameMap map;
+
+    private final GameMap original_map;
 
 
     private PacMan pacMan;
@@ -43,18 +45,17 @@ public class Game extends JPanel implements KeyListener {
 
     private final JPanel mainpanel;
 
-    private String PlayerName;
 
     private Timer timer;
 
     private LeaderBoard leaderBoard;
 
-    public Game(GameMap map, scorePanel scorePanel, JPanel panel, LeaderBoard leaderBoard) {
+    public Game(GameMap original_map, scorePanel scorePanel, JPanel panel, LeaderBoard leaderBoard) {
         this.scorepanel = scorePanel;
-        this.map = map;
+        this.original_map = original_map;
         this.leaderBoard = leaderBoard;
         this.mainpanel = panel;
-        squareSize = map.getSquareSize();
+        squareSize = original_map.getSquareSize();
 
 
         //for blocks with no content
@@ -125,19 +126,19 @@ public class Game extends JPanel implements KeyListener {
         ShyGhostImages.add(loadImage("res_files/ShyGhost/down_2.png"));
 
         /******************************WandereingGhost********************************/
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/neutral.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/neutral.png"));
 
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/right_1.png"));
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/right_2.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/right_1.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/right_2.png"));
 
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/left_1.png"));
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/left_2.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/left_1.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/left_2.png"));
 
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/up_1.png"));
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/up_2.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/up_1.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/up_2.png"));
 
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/down_1.png"));
-        WandereingGhostImages.add(loadImage("res_files/WandereingGhost/down_2.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/down_1.png"));
+        WanderingGhostImages.add(loadImage("res_files/WandereingGhost/down_2.png"));
 
         /******************************HunterGhostsBrother********************************/
         HunterGhostsBrotherImages.add(loadImage("res_files/HunterGhostsBrother/neutral.png"));
@@ -163,24 +164,24 @@ public class Game extends JPanel implements KeyListener {
             leaderBoard.writeToFile("res_files/leaderboard.dat");
             CardLayout cardLayout = (CardLayout) mainpanel.getLayout();
             cardLayout.show(mainpanel, "Menu");
+
         });
 
         // hide button and revel only if game has ended
         backButton.setVisible(false);
 
-        Color originalBackground = backButton.getBackground();
+
         backButton.setBackground(new Color(255, 255, 255, 150));
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
 
                 backButton.setBackground(null);
-                //repaint();
 
 
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                Color originalBackground = backButton.getBackground();
+
                 backButton.setBackground(new Color(255, 255, 255, 150));
             }
         });
@@ -194,13 +195,16 @@ public class Game extends JPanel implements KeyListener {
     }
 
     public void Init() {
+        char[][] originalArray = original_map.getGameMap();
+        char[][] copiedArray = Arrays.copyOf(originalArray, originalArray.length);
+        map = new GameMap(copiedArray, original_map.getSquareSize());
         backButton.setVisible(false);
         scorepanel.Init();
         pacMan = new PacMan(map, 13, 17);
         pacMan.setImages(PacManImages.get(0), PacManImages.get(0));
         hunterGhost = new HunterGhost(map, 11, 13, pacMan, HunterGhostImages);
-        shyGhost = new ShyGhost(map, 15, 13, pacMan, ShyGhostImages);
-        wanderingGhost = new WandereingGhost(map, 15, 15, pacMan, WandereingGhostImages);
+        shyGhost = new ShyGhost(map, 16, 13, pacMan, ShyGhostImages);
+        wanderingGhost = new WandereingGhost(map, 16, 15, pacMan, WanderingGhostImages);
         hunterGhostsBrother = new HunterGhostsBrother(map, 11, 15, pacMan, HunterGhostsBrotherImages);
 
     }

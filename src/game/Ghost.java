@@ -8,18 +8,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.*;
 
+
 enum GhostMode {Chasing, Scattered, Dead}
 
 public abstract class Ghost extends Entity {
 
     protected PacMan pacMan;
 
+
     protected GhostMode ghostMode;
 
 
     protected boolean hasSpeed;
 
-    protected int counter = 30;//duration of the Scatter movement
+    protected int counter = 64;//duration of the Scatter movement
 
 
     protected int CounterForSlowMovement = 4;//to move in every 4 frame
@@ -199,10 +201,11 @@ public abstract class Ghost extends Entity {
                 //if 10 frame have passed
                 if (--counter == 0) {
                     ghostMode = GhostMode.Chasing;
-                    counter = 30;
+                    counter = 64;
                 }
                 if (isCollision()) {
                     ghostMode = GhostMode.Dead;
+                    counter = 64;
                     pacMan.addScore(200);
                     CounterForSlowMovement = pacMan.getCounterForMovement() * 2;
                     return;
@@ -216,6 +219,7 @@ public abstract class Ghost extends Entity {
 
                 if (isCollision()) {
                     ghostMode = GhostMode.Dead;
+                    counter = 64;
                     pacMan.addScore(200);
                     CounterForSlowMovement = pacMan.getCounterForMovement() * 2;
                     return;
@@ -267,7 +271,7 @@ public abstract class Ghost extends Entity {
         PositionY = StartPositionY;
         ghostMode = GhostMode.Chasing;
         needsReset = false;
-        counter = 30;
+        counter = 64;
     }
 
     public void draw(Graphics g, ImageObserver observer) {
