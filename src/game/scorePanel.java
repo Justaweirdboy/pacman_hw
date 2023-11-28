@@ -6,7 +6,7 @@ import java.awt.*;
 public class scorePanel extends JPanel {
     private int score;
     private String playerName;
-    private long timeElapsed; // Idő milliszekundumban
+    private long timeElapsed; // time in millis
 
     private PacMan pacMan;
 
@@ -56,6 +56,7 @@ public class scorePanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+        //renders the scorepanel
         super.paintComponent(g);
 
         g.setColor(Color.WHITE);
@@ -82,7 +83,7 @@ public class scorePanel extends JPanel {
         g.drawString("Élet:" + pacMan.getHP(), hpX, 40);
     }
 
-    // Metódus az idő formázására (pl. másodpercek és percekre)
+    // method to format second and minutes
     private String formatTime(long millis) {
         long seconds = millis / 1000;
         long minutes = seconds / 60;

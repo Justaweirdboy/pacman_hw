@@ -9,27 +9,28 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-
+// A panel to display and manage the leaderboard
 public class LeaderBoard extends JPanel {
-    private List<Player> players;
-    private JTable playersTable;
-    private DefaultTableModel tableModel;
+    private List<Player> players; // List to hold player data
+    private JTable playersTable; // Table to display player information
+    private DefaultTableModel tableModel; // Table model to manage table data
 
-    private final JPanel mainpanel;
+    private final JPanel mainpanel; // Reference to the main panel
 
+    // Constructor for LeaderBoard
     public LeaderBoard(JPanel mainpanel) {
         setLayout(new BorderLayout());
-        players = new ArrayList<>();
-        this.mainpanel = mainpanel;
+        players = new ArrayList<>(); // Initialize the list of players
+        this.mainpanel = mainpanel; // Store reference to the main panel
 
-
+        // Initialize table model and table
         tableModel = new DefaultTableModel(new Object[]{"Név", "Pont", "Játékban töltött idő"}, 0);
         playersTable = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(playersTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Rendezés gombok
+        // Sorting buttons
         JButton sortByNameButton = new JButton("Név szerinti rendezés");
         JButton sortByScoreButton = new JButton("Pont szerinti rendezés");
         JButton Menu = new JButton("Főmenü");
@@ -41,6 +42,7 @@ public class LeaderBoard extends JPanel {
 
         add(buttonsPanel, BorderLayout.SOUTH);
 
+        // Action listeners for sorting buttons
         sortByNameButton.addActionListener(e -> {
             players.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
             refreshTable();
@@ -51,15 +53,14 @@ public class LeaderBoard extends JPanel {
             refreshTable();
         });
 
+        // Action listener for returning to the main menu
         Menu.addActionListener(e -> {
             CardLayout cardLayout = (CardLayout) mainpanel.getLayout();
             cardLayout.show(mainpanel, "Menu");
         });
-
-
     }
 
-
+    // Refresh the table with updated player data
     public void refreshTable() {
         tableModel.setRowCount(0);
         for (Player player : players) {
@@ -68,6 +69,7 @@ public class LeaderBoard extends JPanel {
         }
     }
 
+    // Read player data from a file
     public void readFromFile(String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             players = (List<Player>) ois.readObject();
@@ -79,6 +81,7 @@ public class LeaderBoard extends JPanel {
         }
     }
 
+    // Write player data to a file
     public void writeToFile(String fileName) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(players);
@@ -88,6 +91,7 @@ public class LeaderBoard extends JPanel {
         }
     }
 
+    // Getter for the list of players
     public List getPlayers() {
         return players;
     }

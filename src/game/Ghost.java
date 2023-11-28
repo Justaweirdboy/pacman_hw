@@ -64,32 +64,30 @@ public abstract class Ghost extends Entity {
     }
 
     //findPath also tells if collision happens
+    // Method to find a path for the ghost's movement towards a target
     private boolean findPath(int targetX, int targetY) {
-        // Létrehozunk egy sorrendben feldolgozandó pontokat tároló listát
+        // Initializing data structures for pathfinding
         Queue<Point> queue = new LinkedList<>();
-        // Tároljuk az eddig felfedezett pontokat
         boolean[][] visited = new boolean[map.length][map[0].length];
-        // Tároljuk az előző pontokat az útvonal visszakövetéséhez
         Point[][] previous = new Point[map.length][map[0].length];
 
-        // Kezdőpont hozzáadása a listához és megjelölése felfedezettként
+        // Adding the starting point to the queue and marking it as visited
         Point start = new Point(PositionX / squareSize, PositionY / squareSize);
         queue.add(start);
         visited[start.y][start.x] = true;
 
-        // BFS algoritmus
+        // Breadth-First Search (BFS) algorithm
         while (!queue.isEmpty()) {
             Point current = queue.poll();
 
-            // Ha elértük a célpontot, visszakövetjük az útvonalat és végrehajtjuk a mozgást
+            // If we reach the target point, execute movement
             if (current.x * squareSize == targetX && current.y * squareSize == targetY) {
                 executeMovement(previous, start, current);
-                return PositionX == targetX && PositionY == targetY; // Sikeresen találtunk utat
+                return PositionX == targetX && PositionY == targetY; // Path found successfully
             }
 
-            // Szomszédok felfedezése
+            // Discover neighboring points
             for (Point neighbor : getNeighbors(current)) {
-                // Ha a szomszédos pont megfelelő és még nem volt felfedezve
                 if (isValidMove(neighbor.x, neighbor.y) && !visited[neighbor.y][neighbor.x]) {
                     queue.add(neighbor);
                     visited[neighbor.y][neighbor.x] = true;
@@ -98,14 +96,12 @@ public abstract class Ghost extends Entity {
             }
         }
 
-        return PositionX == targetX && PositionY == targetY; // Nem találtunk utat a célpontig
+        return PositionX == targetX && PositionY == targetY; // Path not found
     }
 
-    // Segédfüggvény a szomszédos pontok meghatározásához
+    // Helper function to retrieve neighboring points
     private List<Point> getNeighbors(Point point) {
         List<Point> neighbors = new ArrayList<>();
-        // Ellenőrzés a négy szomszédos pont felé
-        // Például: jobbra, balra, fel, le
         neighbors.add(new Point(point.x + 1, point.y));
         neighbors.add(new Point(point.x - 1, point.y));
         neighbors.add(new Point(point.x, point.y + 1));
@@ -113,33 +109,30 @@ public abstract class Ghost extends Entity {
         return neighbors;
     }
 
-    // Segédfüggvény az érvényes mozgás ellenőrzéséhez
+    // Helper function to check valid movement
     private boolean isValidMove(int x, int y) {
-        // Ellenőrizzük, hogy a pont a térképen belül van-e és megfelelő mezőre mozoghatunk-e
         return x >= 0 && y >= 0 && y < map.length && x < map[0].length && canMove(x * squareSize, y * squareSize);
     }
 
-    // Segédfüggvény az útvonal végrehajtásához
+    // Helper function to execute movement along the path
     private void executeMovement(Point[][] previous, Point start, Point target) {
         List<Point> path = new ArrayList<>();
         Point current = target;
 
-        // Visszakövetjük az útvonalat a célponttól a kiindulópontig
         while (!current.equals(start)) {
             path.add(current);
             current = previous[current.y][current.x];
         }
 
-        // Az útvonalat megfordítjuk, hogy a kiindulóponttól a célpontig legyen
         Collections.reverse(path);
         if (path.isEmpty())
             return;
         Point point = path.get(0);
-        // Az útvonalat végrehajtjuk a szellem mozgatásához
 
         int targetX = point.x * squareSize;
         int targetY = point.y * squareSize;
 
+        // Perform movement along the path
         if (PositionX < targetX) {
             PositionX += squareSize;
             setImages(GhostImages.get(1), GhostImages.get(2));
@@ -152,7 +145,6 @@ public abstract class Ghost extends Entity {
         } else if (PositionY > targetY) {
             PositionY -= squareSize;
             setImages(GhostImages.get(5), GhostImages.get(6));
-
         }
     }
 
@@ -274,6 +266,7 @@ public abstract class Ghost extends Entity {
         counter = 64;
     }
 
+    //draw the propriate state of the ghost and its position
     public void draw(Graphics g, ImageObserver observer) {
         Image img;
         if (ghostMode == GhostMode.Chasing) {

@@ -26,6 +26,7 @@ public class Player implements Serializable {
     }
 
     public String getFormatTime() {
+        //to format minutes and seconds
         long seconds = time / 1000;
         long minutes = seconds / 60;
         seconds = seconds % 60;

@@ -16,7 +16,7 @@ public class HunterGhost extends Ghost {
     @Override
     protected boolean wannaChase() {
         return true;
-    }
+    }//always chases PacMan
 
 
 }
