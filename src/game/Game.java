@@ -208,7 +208,7 @@ public class Game extends JPanel implements KeyListener {
         pacMan.setImages(PacManImages.get(0), PacManImages.get(0));
         hunterGhost = new HunterGhost(map, 11, 13, pacMan, HunterGhostImages);
         shyGhost = new ShyGhost(map, 16, 13, pacMan, ShyGhostImages);
-        wanderingGhost = new WandereingGhost(map, 16, 15, pacMan, WanderingGhostImages);
+        wanderingGhost = new WanderingGhost(map, 16, 15, pacMan, WanderingGhostImages);
         hunterGhostsBrother = new HunterGhostsBrother(map, 11, 15, pacMan, HunterGhostsBrotherImages);
 
     }
@@ -336,11 +336,7 @@ public class Game extends JPanel implements KeyListener {
 
             }
 
-            pacMan.move();
-            hunterGhost.move();
-            shyGhost.move();
-            wanderingGhost.move();
-            hunterGhostsBrother.move();
+            MoveEntities();
             repaint();
 
         }
@@ -351,6 +347,14 @@ public class Game extends JPanel implements KeyListener {
         shyGhost.setGhostMode(GhostMode.Scattered);
         wanderingGhost.setGhostMode(GhostMode.Scattered);
         hunterGhostsBrother.setGhostMode(GhostMode.Scattered);
+    }
+
+    private void MoveEntities() {
+        pacMan.move();
+        hunterGhost.move();
+        shyGhost.move();
+        wanderingGhost.move();
+        hunterGhostsBrother.move();
     }
 
 

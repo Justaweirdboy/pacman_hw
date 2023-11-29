@@ -1,15 +1,13 @@
 package game;
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
-public class WandereingGhost extends Ghost {
-    protected WandereingGhost(GameMap map, int PositionX, int PositionY, PacMan pacMan, ArrayList<Image> GhostImages) {
+public class WanderingGhost extends Ghost {
+    protected WanderingGhost(GameMap map, int PositionX, int PositionY, PacMan pacMan, ArrayList<Image> GhostImages) {
         super(map, PositionX, PositionY, pacMan, GhostImages);
 
-        relativeX = 5 * squareSize;
-        relativeY = 5 * squareSize;
+
         chasePointsX = new int[]{1, 26, 1, 26};
         chasePointsY = new int[]{1, 29, 29, 1};
     }

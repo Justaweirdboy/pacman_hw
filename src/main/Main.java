@@ -16,73 +16,46 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         // name of the file which contains the map
-        String fileName = "res_files/map.txt";
+        String filename = "res_files/map.txt";
 
 
-        try {
-            File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
-            //using StringBuilder to read txt into it
-            StringBuilder inputBuilder = new StringBuilder();
+        GameMap map = new GameMap(filename, 22);
+        JFrame frame = new JFrame();
+
+        JPanel mainPanel = new JPanel(new CardLayout());
+        scorePanel scorePanel = new scorePanel();
+        scorePanel.setPreferredSize(new Dimension(634, 50));
+        scorePanel.setBackground(Color.DARK_GRAY);
+
+        LeaderBoard leaderBoard = new LeaderBoard(mainPanel);
+        leaderBoard.readFromFile("res_files/leaderboard.dat");
+
+        Game game = new Game(map, scorePanel, mainPanel, leaderBoard);
+        game.setPreferredSize(new Dimension(634, 722));
+        game.setBackground(Color.BLACK);
 
 
-            while (scanner.hasNextLine()) {
-                inputBuilder.append(scanner.nextLine()).append("\n");
-            }
-            scanner.close();
-
-            String input = inputBuilder.toString();
-
-            //create the matrix of the map
-            String[] lines = input.split("\n");
-            char[][] matrix = new char[lines.length][];
-
-            for (int i = 0; i < lines.length; i++) {
-                matrix[i] = lines[i].toCharArray();
-            }
+        frame.setSize(634, 772);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
 
 
-            GameMap map = new GameMap(matrix, 22);
-            JFrame frame = new JFrame();
-
-            JPanel mainPanel = new JPanel(new CardLayout());
-            scorePanel scorePanel = new scorePanel();
-            scorePanel.setPreferredSize(new Dimension(634, 50));
-            scorePanel.setBackground(Color.DARK_GRAY);
-
-            LeaderBoard leaderBoard = new LeaderBoard(mainPanel);
-            leaderBoard.readFromFile("res_files/leaderboard.dat");
-
-            Game game = new Game(map, scorePanel, mainPanel, leaderBoard);
-            game.setPreferredSize(new Dimension(634, 722));
-            game.setBackground(Color.BLACK);
+        JPanel menuPanel = createMenuPanel(mainPanel, game, scorePanel, leaderBoard);
+        mainPanel.add(menuPanel, "Menu");
 
 
-            frame.setSize(634, 772);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+        JPanel gamePanel = createGamePanel(mainPanel, game, scorePanel);
+        mainPanel.add(gamePanel, "Game");
+
+        mainPanel.add(leaderBoard, "LeaderBoard");
 
 
-            JPanel menuPanel = createMenuPanel(mainPanel, game, scorePanel, leaderBoard);
-            mainPanel.add(menuPanel, "Menu");
+        CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+        cardLayout.show(mainPanel, "Menu"); //
 
-
-            JPanel gamePanel = createGamePanel(mainPanel, game, scorePanel);
-            mainPanel.add(gamePanel, "Game");
-
-            mainPanel.add(leaderBoard, "LeaderBoard");
-
-
-            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-            cardLayout.show(mainPanel, "Menu"); //
-
-            frame.add(mainPanel);
-            frame.setResizable(false);
-            frame.setVisible(true);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        frame.add(mainPanel);
+        frame.setResizable(false);
+        frame.setVisible(true);
 
 
     }
